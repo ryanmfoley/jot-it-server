@@ -14,7 +14,11 @@ app.get('/', (req, res) => {
     res.redirect('/api/projects-db')
 });
 
+const projectController = require('./controllers/projects')
+app.use('/api/projects', projectController)
 
+const taskController = require('./controllers/tasks')
+app.use('/api/tasks', taskController)
 
 
 
