@@ -15,7 +15,7 @@ const ProjectSchema = new mongoose.Schema(
         },
         completed: false,
         links: String,
-        //tasks: [taskSchema]
+        // tasks: [taskSchema]
     }, 
     {
         timestamp: true
