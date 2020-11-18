@@ -1,6 +1,6 @@
 const mongoose = require('../db/connection')
 
-// const taskSchema = require('./Task')
+const TaskSchema = require('./Task')
 
 const ProjectSchema = new mongoose.Schema(
     {
@@ -15,7 +15,7 @@ const ProjectSchema = new mongoose.Schema(
         },
         completed: false,
         links: String,
-        // tasks: [taskSchema]
+        tasks: [TaskSchema]
     }, 
     {
         timestamp: true
