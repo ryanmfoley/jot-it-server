@@ -8,7 +8,7 @@ router.post('/', (req, res, next) => {
 	const projectId = taskData.projectId;
 	Project.findById(projectId)
 		.then((project) => {
-			project.task.push(taskData);
+			project.tasks.push(taskData);
 			return project.save();
 		})
 
@@ -21,10 +21,10 @@ router.patch('/:id', (req, res, next) => {
 	const taskData = req.body;
 
 	Project.findOne({
-		'task._id': id,
+		'tasks._id': id,
 	})
 		.then((project) => {
-			const task = project.task.id(id);
+			const task = project.tasks.id(id);
 			task.set(taskData);
 			return project.save();
 		})
@@ -35,9 +35,9 @@ router.patch('/:id', (req, res, next) => {
 //Delete
 router.delete('/:id', (req, res, next) => {
 	const id = req.params.id;
-	Project.findOneById(id)
+	Project.findOne({'tasks._id': id})
 		.then((project) => {
-			project.task.id(id).remove();
+			project.tasks.id(id).remove();
 			return project.save();
 		})
 		.then(() => res.sendStatus(204))
