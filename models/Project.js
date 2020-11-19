@@ -13,7 +13,10 @@ const ProjectSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
-        completed: false,
+        completed: {
+            type: Boolean,
+            default: false
+        },
         links: String,
         tasks: [TaskSchema]
     }, 
