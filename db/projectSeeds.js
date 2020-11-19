@@ -1,6 +1,6 @@
 const mongoose = require('./connection')
 
-const Project = require('../models/Project')
+const Project = require('../models/project')
 // const Task = require('../models/Task')
 
 const projectSeeds = require('./seed.json')
