@@ -4,13 +4,33 @@
     "title": "Retile the bathroom",
     "description": "The tile in the poweder room is so outdated, gotta get this done",
     "dueDate": "Dec 20, 2020",
-    "completed": false
+    "completed": false,
+    "tasks": [
+        {
+         "description": "Create budget",
+         "dueDate": "Dec 20, 2020"
+        },
+        {
+         "description": "Hire contractor",
+         "dueDate": "Dec 21, 2020" 
+        }
+    ]
 },
 {
     "title": "Watch all Wes Anderson movies",
     "description": "I've been missing Fantastic Mr. Fox, need to find a good Tuesday night",
     "dueDate": "Nov 18, 2020",
-    "completed": false
+    "completed": false,
+    "tasks": [
+        {
+            "description": "Isle of Dogs",
+            "dueDate": "Nov 27, 2020" 
+        },
+        {
+           "description": "Fantastic Mr. Fox",
+            "dueDate": "Nov 28, 2020" 
+        }
+    ]
 },
 {
     "title": "Secure a PS5",
