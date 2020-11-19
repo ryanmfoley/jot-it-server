@@ -15,6 +15,20 @@ router.get('/', (req, res, next) => {
 		.catch(next);
 });
 
+// GET one
+
+router.get('/:id', (req, res, next) => {
+	Project.findById(req.params.id)
+		.then((project) => {
+			if (!project) {
+				res.sendStatus(404);
+			} else {
+				res.json(project);
+			}
+		})
+		.catch(next);
+});
+
 // POST
 
 router.post('/', (req, res, next) => {
@@ -30,21 +44,15 @@ router.post('/', (req, res, next) => {
 
 router.patch('/:id', (req, res, next) => {
 	const id = req.params.id;
+	const projectData = req.body;
 	Project.findByIdAndUpdate(
 		id,
-		{
-			title: req.body.title,
-			// description: req.body.description,
-			// dueDate: req.body.dueDate,
-			// completed: req.body.completed,
-			// links: req.body.links,
-			//tasks: req.body.tasks
-		},
-		{ new: true }
-	)
+		projectData,
+		{new: true})
 		.then((project) => res.json(project))
 		.catch(next);
 });
+
 
 // DESTROY
 
