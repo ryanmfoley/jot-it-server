@@ -4,6 +4,8 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server, { cors: true })
 const cors = require('cors')
 
+const { addUser, getUser } = require('./users')
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
@@ -27,12 +29,8 @@ app.use('/api/tasks', taskController)
 const onConnect = (socket) => {
 	// Listen for name and room sent by client through the 'join' event
 	socket.on('join', ({ name, room }) => {
-		// Create users array
-		const users = []
-
-		// Add user to users array
-		let user = { id: socket.id, username, room }
-		users.push(user)
+		// Add user
+		const user = addUser(socket.id, name, room)
 
 		// Join socket to a given room
 		socket.join(user.room)
@@ -40,17 +38,16 @@ const onConnect = (socket) => {
 
 	// Listen for messages from client
 	socket.on('message', (message, clearMessage) => {
-		const { name, room } = users.find((user) => user.id === socket.id)
-		if (name) {
-			io.in(room).emit('message', { user: name, message })
+		const user = getUser(socket.id)
+
+		if (user.name) {
+			io.in(user.room).emit('message', {
+				user: user.name,
+				message: user.message,
+			})
 		}
 
 		clearMessage()
-	})
-
-	// Listen for disconnect event
-	socket.on('disconnect', () => {
-		const user = removeUser(socket.id)
 	})
 }
 
@@ -61,8 +58,10 @@ io.on('connection', onConnect)
 
 // app.set('port', process.env.PORT || 8000)
 
+const PORT = process.env.PORT || 8000
+
 // app.listen(app.get('port'), () => {
 // 	console.log(`Running PORT: ${app.get('port')}`)
 // })
 
-server.listen(8000, () => console.log('Server running on port 8000'))
+server.listen(PORT, () => console.log('Server running on port 8000'))
