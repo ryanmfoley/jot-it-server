@@ -1,6 +1,6 @@
 const mongoose = require('../db/connection')
 
-const TaskSchema = require('./task')
+const TaskSchema = require('./Task')
 
 const ProjectSchema = new mongoose.Schema(
     {
