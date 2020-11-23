@@ -1,19 +1,40 @@
-const users = []
+let users = []
 
-const addUser = (id, name, room) => {
-	const user = { id, name, room }
+// Create User
+function User(id, name, room) {
+	this.id = id
+	this.name = name
+	this.room = room
+}
 
-	users.push(user)
+const addUser = (newUser) => {
+	if (!users.length) {
+		users.push(newUser)
+	} else if (!users.some((user) => user.id === newUser.id)) {
+		users.push(newUser)
+	}
+}
+
+// Get current user
+const getCurrentUser = (id) => users.find((user) => user.id === id)
+
+// Get users in chatroom
+const getUsersInRoom = (room) => users.filter((user) => user.room === room)
+
+const removeUser = (id) => {
+	// Find user to remove
+	const user = users.find((user) => user.id === id)
+
+	// Remove user from chatroom
+	users = users.filter((user) => user.id !== id)
 
 	return user
 }
 
-const getUser = (id) => users.find((user) => user.id === id)
-
-// const removeUser = (id) => {
-// 	if (users.length) {
-// 		return users.filter((user) => user.id !== id)
-// 	}
-// }
-
-module.exports = { addUser, getUser }
+module.exports = {
+	User,
+	addUser,
+	getCurrentUser,
+	removeUser,
+	getUsersInRoom,
+}
