@@ -7,6 +7,7 @@ const cors = require('cors')
 const {
 	User,
 	addUser,
+	getUsers,
 	getCurrentUser,
 	removeUser,
 	getUsersInRoom,
@@ -34,48 +35,48 @@ app.use('/api/tasks', taskController)
 
 const onConnect = (socket) => {
 	// Listen for name and room sent by client through the 'join' event
-	socket.on('joinRoom', ({ name, room }) => {
+	socket.on('joinRoom', async ({ name, room }) => {
 		// const newName = name.trim().toLowerCase()
 		// const newRoom = room.trim().toLowerCase()
 
-		if (name && room) {
-			// Create User
-			let user = new User(socket.id, name, room)
+		// if (name && room) {
+		// Create User
+		let user = new User(socket.id, name, room)
 
-			// Add user to list or users
-			addUser(user)
+		// Add user to list or users
+		addUser(user)
 
-			// Join socket to a given room
-			socket.join(user.room)
+		// Join socket to a given room
+		socket.join(user.room)
 
-			// Welcome current user
-			socket.emit('chat-message', {
-				user: 'admin',
-				message: 'Welcome to ProjectChat!',
-			})
+		// Welcome current user
+		socket.emit('chat-message', {
+			user: 'admin',
+			text: 'Welcome to ProjectChat!',
+		})
 
-			// Notify other clients a new user has joined
-			socket.broadcast.to(user.room).emit('chat-message', {
-				user: 'admin',
-				message: `${user.name} has joined!`,
-			})
+		// // Notify other clients a new user has joined
+		socket.broadcast.to(user.room).emit('chat-message', {
+			user: 'admin',
+			text: `${user.name} has joined!`,
+		})
 
-			const users = getUsersInRoom(user.room)
+		const users = getUsersInRoom(user.room)
 
-			// Send room info to the channel that the client is in
-			io.to(user.room).emit('usersInRoom', { users })
-		}
+		// Send room info to the channel that the client is in
+		io.to(user.room).emit('usersInRoom', { users })
+		// }
 	})
 
 	// Listen for messages from client
-	socket.on('send-chat-message', (message, clearMessage) => {
-		const user = getCurrentUser(socket.id)
-
+	socket.on('send-chat-message', async (message, clearMessage) => {
+		const user = await getCurrentUser(socket.id)
+		console.log(user)
 		if (user) {
 			// Send messages to current users room
 			io.to(user.room).emit('chat-message', {
 				user: user.name,
-				message,
+				text: message,
 			})
 		}
 
@@ -89,7 +90,7 @@ const onConnect = (socket) => {
 		if (user) {
 			socket.broadcast.to(user.room).emit('chat-message', {
 				user: 'admin',
-				message: `${user.name} has left the chatroom`,
+				text: `${user.name} has left the chatroom`,
 			})
 
 			const users = getUsersInRoom(user.room)

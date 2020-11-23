@@ -31,9 +31,14 @@ const removeUser = (id) => {
 	return user
 }
 
+const getUsers = () => {
+	return users
+}
+
 module.exports = {
 	User,
 	addUser,
+	getUsers,
 	getCurrentUser,
 	removeUser,
 	getUsersInRoom,
