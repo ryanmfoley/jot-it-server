@@ -35,34 +35,36 @@ app.use('/api/tasks', taskController)
 const onConnect = (socket) => {
 	// Listen for name and room sent by client through the 'join' event
 	socket.on('joinRoom', ({ name, room }) => {
-		const newName = name.trim().toLowerCase()
-		const newRoom = room.trim().toLowerCase()
+		// const newName = name.trim().toLowerCase()
+		// const newRoom = room.trim().toLowerCase()
 
-		// Create User
-		const user = new User(socket.id, newName, newRoom)
+		if (name && room) {
+			// Create User
+			let user = new User(socket.id, name, room)
 
-		// Add user to list or users
-		addUser(user)
+			// Add user to list or users
+			addUser(user)
 
-		// Join socket to a given room
-		socket.join(user.room)
+			// Join socket to a given room
+			socket.join(user.room)
 
-		// Welcome current user
-		socket.emit('chat-message', {
-			user: 'admin',
-			message: 'Welcome to ProjectChat!',
-		})
+			// Welcome current user
+			socket.emit('chat-message', {
+				user: 'admin',
+				message: 'Welcome to ProjectChat!',
+			})
 
-		// Notify other clients a new user has joined
-		socket.broadcast.to(user.room).emit('chat-message', {
-			user: 'admin',
-			message: `${user.name} has joined!`,
-		})
+			// Notify other clients a new user has joined
+			socket.broadcast.to(user.room).emit('chat-message', {
+				user: 'admin',
+				message: `${user.name} has joined!`,
+			})
 
-		const users = getUsersInRoom(user.room)
+			const users = getUsersInRoom(user.room)
 
-		// Send room info to the channel that the client is in
-		io.to(user.room).emit('usersInRoom', users)
+			// Send room info to the channel that the client is in
+			io.to(user.room).emit('usersInRoom', { users })
+		}
 	})
 
 	// Listen for messages from client
