@@ -10,7 +10,11 @@ function User(id, name, room) {
 const addUser = (newUser) => {
 	if (!users.length) {
 		users.push(newUser)
-	} else if (!users.some((user) => user.name === newUser.name)) {
+	} else if (
+		!users.some(
+			(user) => user.name === newUser.name && user.room === newUser.room
+		)
+	) {
 		users.push(newUser)
 	}
 }

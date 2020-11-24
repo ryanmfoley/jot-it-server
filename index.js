@@ -42,7 +42,7 @@ const onConnect = (socket) => {
 		// if (name && room) {
 		// Create User
 		let user = await new User(socket.id, name, room)
-		// console.log(user)
+		console.log('user', user)
 
 		// Add user to list or users
 		addUser(user)
@@ -62,6 +62,7 @@ const onConnect = (socket) => {
 		})
 
 		const users = await getUsersInRoom(user.room)
+		console.log('users', users)
 
 		// Send room info to the channel that the client is in
 		io.to(user.room).emit('usersInRoom', { users })
@@ -94,10 +95,10 @@ const onConnect = (socket) => {
 			})
 
 			const users = getUsersInRoom(user.room)
+			// console.log(users)
 
 			// Send users and room info to client
-			// io.to(user.room).emit('usersInRoom', users)
-			socket.emit('usersInRoom', users)
+			io.to(user.room).emit('user-disconnected', users)
 		}
 	})
 }
@@ -106,15 +107,6 @@ const onConnect = (socket) => {
 io.on('connection', onConnect)
 
 //______________________________________________________________
-
-// send to sender-client only
-//socket.emit()
-
-// send to all clients
-// io.emit()
-
-// send to all clients except sender
-// socket.broadcast.emit()
 
 const PORT = process.env.PORT || 8000
 
