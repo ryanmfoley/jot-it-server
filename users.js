@@ -27,7 +27,6 @@ const removeUser = (id) => {
 
 	// Remove user from chatroom
 	users = users.filter((user) => user.id !== id)
-
 	return user
 }
 

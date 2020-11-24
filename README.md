@@ -14,4 +14,4 @@ _Screenshots_
 
 ## Installation Instructions and contribution guidelines:
 
-Open the deployed app at \***\*\_\*\***. Fork and clone this repository and submit a pull request for personal use.
+Open the deployed app at https://shielded-scrubland-66990.herokuapp.com/api/projects. Fork and clone this repository and submit a pull request for personal use.

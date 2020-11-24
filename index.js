@@ -96,7 +96,8 @@ const onConnect = (socket) => {
 			const users = getUsersInRoom(user.room)
 
 			// Send users and room info to client
-			io.to(user.room).emit('usersInRoom', users)
+			// io.to(user.room).emit('usersInRoom', users)
+			socket.emit('usersInRoom', users)
 		}
 	})
 }
