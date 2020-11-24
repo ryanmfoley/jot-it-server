@@ -95,7 +95,6 @@ const onConnect = (socket) => {
 			})
 
 			const users = getUsersInRoom(user.room)
-			// console.log(users)
 
 			// Send users and room info to client
 			io.to(user.room).emit('user-disconnected', users)
