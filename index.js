@@ -42,7 +42,7 @@ const onConnect = (socket) => {
 		// if (name && room) {
 		// Create User
 		let user = await new User(socket.id, name, room)
-		console.log(user)
+		// console.log(user)
 
 		// Add user to list or users
 		addUser(user)
@@ -72,13 +72,13 @@ const onConnect = (socket) => {
 	socket.on('send-chat-message', async (message, clearMessage) => {
 		const user = await getCurrentUser(socket.id)
 		// console.log(user)
-		// if (user) {
-		// Send messages to current users room
-		io.to(user.room).emit('chat-message', {
-			user: user.name,
-			text: message,
-		})
-		// }
+		if (user) {
+			// Send messages to current users room
+			io.to(user.room).emit('chat-message', {
+				user: user.name,
+				text: message,
+			})
+		}
 
 		clearMessage()
 	})
