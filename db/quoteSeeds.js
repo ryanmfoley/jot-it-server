@@ -1,15 +1,15 @@
-const mongoose = require('./connection');
+const mongoose = require('./connection')
 
-const Quote = require('../models/Quote');
+const Quote = require('../models/Quote')
 
-const quoteSeeds = require('./quoteSeed.json');
+const quoteSeeds = require('./quoteSeed.json')
 
 Quote.deleteMany({})
 	.then(() => {
-		Quote.insertMany(quoteSeeds);
+		Quote.insertMany(quoteSeeds)
 	})
 	.then(console.log())
 	.catch(console.error)
 	.finally(() => {
-		process.exit;
-	});
+		process.exit
+	})

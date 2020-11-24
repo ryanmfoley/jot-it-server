@@ -15,18 +15,6 @@ router.get('/', (req, res, next) => {
 		.catch(next)
 })
 
-router.get('/:id', (req, res, next) => {
-	Project.findById(req.params.id)
-		.then((project) => {
-			if (!project) {
-				res.sendStatus(404)
-			} else {
-				res.json(project)
-			}
-		})
-		.catch(next)
-})
-
 // GET one
 
 router.get('/:id', (req, res, next) => {
