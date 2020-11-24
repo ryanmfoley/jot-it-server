@@ -15,6 +15,7 @@ router.post('/', (req, res, next) => {
 		.then((project) => res.status(201).json({ project }))
 		.catch(next);
 });
+
 //Patch
 router.patch('/:id', (req, res, next) => {
 	const id = req.params.id;
