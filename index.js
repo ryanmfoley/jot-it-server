@@ -41,11 +41,11 @@ const onConnect = (socket) => {
 
 		// if (name && room) {
 		// Create User
-		let user = new User(socket.id, name, room)
+		let user = await new User(socket.id, name, room)
+		console.log(user)
 
 		// Add user to list or users
 		addUser(user)
-
 		// Join socket to a given room
 		socket.join(user.room)
 
@@ -61,7 +61,7 @@ const onConnect = (socket) => {
 			text: `${user.name} has joined!`,
 		})
 
-		const users = getUsersInRoom(user.room)
+		const users = await getUsersInRoom(user.room)
 
 		// Send room info to the channel that the client is in
 		io.to(user.room).emit('usersInRoom', { users })
@@ -71,14 +71,14 @@ const onConnect = (socket) => {
 	// Listen for messages from client
 	socket.on('send-chat-message', async (message, clearMessage) => {
 		const user = await getCurrentUser(socket.id)
-		console.log(user)
-		if (user) {
-			// Send messages to current users room
-			io.to(user.room).emit('chat-message', {
-				user: user.name,
-				text: message,
-			})
-		}
+		// console.log(user)
+		// if (user) {
+		// Send messages to current users room
+		io.to(user.room).emit('chat-message', {
+			user: user.name,
+			text: message,
+		})
+		// }
 
 		clearMessage()
 	})
