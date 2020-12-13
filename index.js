@@ -7,7 +7,6 @@ const cors = require('cors')
 const {
 	User,
 	addUser,
-	getUsers,
 	getCurrentUser,
 	removeUser,
 	getUsersInRoom,
